@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>DartCounter – Testscheibe</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0b1220">
+    <!-- PWA support -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- iOS support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="resources/icons/128x128.png">
+</head>
+<body>
+
+    <!-- Splashscreen -->
+     <div id="splashscreen" class="splashscreen">
+        <img src="resources/icons/128x128.png" alt="DARTCOUNTER LOGO">
+     </div>
+
+    <!-- Reset Button -->
+    <button id="resetBtn" class="reset-btn">Reset</button>
+
+    
+    <div class="container">
+        <!-- Player 1 -->
+        <div class="player" id="player1">
+            <h2>Spieler 1</h2>
+            <p id="score1">501</p>
+            <div class="finish-preview"></div>
+            <div class="dart-boxes"></div>
+            <button class="miss-btn">MISS</button>
+            <p class="total-throws"></p>
+        </div>
+
+        <!-- Board -->
+        <div class="board-wrapper">
+            <div class="board"></div>
+        </div>
+
+        <!-- Player 2 -->
+        <div class="player" id="player2">
+            <h2>Spieler 2</h2>
+            <p id="score2">501</p>
+            <div class="finish-preview"></div>
+            <div class="dart-boxes"></div>
+            <button class="miss-btn">MISS</button>
+            <p class="total-throws"></p>
+        </div>
+    </div>
+
+    <!-- HitMenu Overlay -->
+    <div id="menuOverlay" class="menu-overlay hidden">
+        <div id="menu" class="menu"></div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script type="module" src="src/board.js"></script>
+    <script type="module" src="src/menus/hitMenu.js"></script>
+    <script type="module" src="src/menus/confirmMenu.js"></script>
+    <script type="module" src="src/menus/winMenu.js"></script>
+
+    <!-- Game Logic Scripts -->
+    <script type="module" src="src/game/main.js"></script>
+
+    <!-- Splashscreen Script -->
+    <script type="module" src="src/splashscreen.js"></script>
+</body>
+</html>

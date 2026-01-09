@@ -1,0 +1,404 @@
+/* General Website */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #3d5168;
+    font-family: sans-serif;
+}
+
+.splashscreen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #0b1220;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.splashscreen img {
+    width: 100px;
+    height: 100px;
+}
+
+/* Main Container */
+.container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* Player Container */
+.player {
+    flex: 0 0 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    background: #2c3e50;
+    position: relative;
+    padding-top: 20px;
+    gap: 10px;
+}
+
+/* Highlight active Player */
+.player.active {
+    border: 3px solid #f00;
+}
+
+/* Dehighlight inactive Player */
+.player.inactive {
+    opacity: 0.55;
+}
+
+/* Score */
+.player p {
+    font-size: 2rem;
+    margin: 0;
+}
+
+/* Miss Button */
+.miss-btn {
+    margin-top: 10px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 2;
+}
+.miss-btn:hover {
+    background: #c0392b;
+}
+
+/* Board Container */
+.board-wrapper {
+    flex: 0 0 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden; /* prevent board from stretching wrapper */
+}
+
+/* Board */
+.board {
+    position: relative;
+    border-radius: 50%;
+    background: #3d5168;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border: 44px solid #07080a; /* thicker ring */
+    box-shadow: 0 14px 42px rgba(0,0,0,0.6);
+    box-sizing: border-box; /* include border in width/height */
+    /* width and height are set by JS to Math.min(wrapper.width, wrapper.height) */
+}
+
+/* Number Label */
+.segment-label{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: center;
+    z-index: 50;
+    pointer-events: none; /* don't block clicks on slices */
+}
+
+/* Number Label Text */
+.segment-label .label-text{
+    display: inline-block;
+    transform: rotate(calc(-1 * var(--i) * 18deg));
+    color: #fff;
+    font-weight: 800;
+    font-size: 1rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: transparent; /* directly on black ring */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+
+/* Board Slices */
+.slice {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    /* slightly wider to avoid tiny gaps between rotated slices */
+    width: 34%;
+    height: 100%;
+    background: #c60202;
+    border: none;
+    cursor: pointer;
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+    transform: translate(-50%, -100%) rotate(calc(var(--i) * 18deg));
+    transform-origin: 50% 100%;
+    transition: background-color 0.2s;
+}
+
+/* Board Slices (even) */
+.slice:nth-child(even) { background: #028002; }
+
+/* Board Slices (uneven) hover */
+.slice:hover { background: #ff4e51; }
+/* Board Slices (even) hover */
+.slice:nth-child(even):hover { background: #8eff2b; }
+
+/* Bull */
+.bull {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    height: 30%;
+    border-radius: 50%;
+    background: #ffb739;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* Bull hover */
+.bull:hover { background: #ffd17e; }
+
+/* Finish Preview */
+.finish-preview {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* finish preview cells: empty or typed (S/D/T) */
+.finish-preview .finish-cell,
+.finish-preview .finish-empty {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #000; /* always black text */
+    min-width: 44px;
+    text-align: center;
+}
+
+/* When no suggestion is available */
+.finish-preview .finish-empty {
+    background: #9aa4ad; /* grey when empty */
+    opacity: 0.65;
+}
+
+/* When no finish is avalable */
+.finish-preview .finish-unavailable {
+    /* same base design as finish-cell but greyed */
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #000;
+    min-width: 44px;
+    text-align: center;
+    background: #9aa4ad; /* grey when not possible in this round */
+    opacity: 0.8;
+}
+
+/* Finish Preview Colors */
+.finish-preview .finish-s { background: #3b82f6; } /* single -> blue */
+.finish-preview .finish-d { background: #c60202; } /* double -> red */
+.finish-preview .finish-t { background: #f1c40f; } /* triple -> yellow */
+
+/* Dart Boxen – BREITE PASST SICH AN TEXT AN */
+.dart-boxes {
+    display: flex;
+    gap: 6px;
+}
+
+/* Shows the boxes what you have thrown */
+.dart-box {
+    min-width: 36px;
+    height: 34px;
+    padding: 0 8px;
+    background: #111827; /* darker, matches background */
+    border-radius: 6px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
+    color: #fff; /* white text so it doesn't glow */
+    white-space: nowrap;
+
+    z-index: 2;
+}
+
+/* Total throws */
+.total-throws {
+    position: absolute;
+    bottom: 8px;
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+/* Reset Button */
+.reset-btn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: none;
+    background: #e11d48;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+/* WinMenu Overlay */
+.menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+/* WinMenu Box */
+.menu {
+    width: min(40vw, 300px);
+    background: #1f2933;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    align-items: center; /* prevent buttons stretching */
+}
+
+/* WinMenu Button */
+.menu button {
+    font-size: 1.4rem;
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: none;
+    background: #3b82f6;
+    color: white;
+    cursor: pointer;
+    width: auto; /* don't stretch full width */
+}
+
+/* General menu button row styling */
+.menu .menu-btn-row{
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Hit menu specific: hige buttons and stacked vertically */
+.menu.hit-menu{
+    width: min(80vw, 900px);
+    align-items: stretch;
+}
+
+/* Hit menu button row: vertical layout */
+.menu.hit-menu .menu-btn-row{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+}
+
+/* Hit menu buttons: bigger and full width */
+.menu.hit-menu button{
+    font-size: 1.9rem;
+    padding: 40px 26px; /* doubled vertical padding to make buttons ~2x taller */
+    width: 100%;
+    border-radius: 12px;
+}
+
+/* Confirm & Win boxes styling */
+.confirm-box,
+.win-box {
+    width: min(86vw, 420px);
+    background: #0b1220;
+    color: #fff;
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 20px 40px rgba(2,6,23,0.7);
+    text-align: center;
+}
+
+/* Headings for confirm & win boxes */
+.confirm-box h2,
+.win-box h2 {
+    margin: 0 0 12px 0;
+}
+
+/* Confirm buttons row */
+.confirm-buttons{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    margin-top:10px;
+}
+
+/* Confirm buttons styling */
+.confirm-buttons button{
+    padding:10px 14px;
+    border-radius:10px;
+    border:none;
+    cursor:pointer;
+    font-weight:700;
+}
+
+/* Confirm Yes/No button colors */
+.confirm-buttons #yes{
+    background:#ef4444;
+    color:#fff;
+}
+
+/* Confirm Yes/No button colors */
+.confirm-buttons #no{
+    background:#6b7280;
+    color:#fff;
+}
+
+/* Win box table styling */
+.win-box table{
+    width:100%;
+    border-collapse:collapse;
+    margin:10px 0 12px 0;
+    color:#fff;
+}
+
+/* Win box table cells styling */
+.win-box th, .win-box td{
+    padding:8px 6px;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    text-align:center;
+}
+
+/* Rematch button styling */
+.win-box .rematch-btn{
+    padding:10px 16px;
+    border-radius:10px;
+    border:none;
+    background:#3b82f6;
+    color:#fff;
+    font-weight:700;
+    cursor:pointer;
+}
+
+/* General hidden class to hide elements */
+.hidden {
+    display: none;
+}
