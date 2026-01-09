@@ -23,7 +23,3 @@ export function openConfirmReset() {
 
     overlay.querySelector("#no").onclick = () => overlay.remove();
 }
-
-// register reset button handler here to ensure openConfirmReset is defined
-const resetBtnEl = document.getElementById("resetBtn");
-if(resetBtnEl) resetBtnEl.onclick = openConfirmReset;
