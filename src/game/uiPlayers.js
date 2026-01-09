@@ -1,6 +1,7 @@
-import { players, currentPlayerIndex, maxThrows } from "./game.js";
+import { players, getCurrentPlayerIndex, maxThrows } from "./game.js";
 
 export function updateActivePlayer() {
+    const currentPlayerIndex = getCurrentPlayerIndex();
     players.forEach((p, i) => {
         p.element.classList.toggle("active", i === currentPlayerIndex);
         p.element.classList.toggle("inactive", i !== currentPlayerIndex);

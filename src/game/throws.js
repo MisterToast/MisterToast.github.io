@@ -1,11 +1,11 @@
-import { players, currentPlayerIndex } from "./game.js";
+import { players, getCurrentPlayerIndex } from "./game.js";
 import { nextThrow } from "./turn.js";
 import { showWinner } from "./win.js";
 
 export function registerMissButtons() {
     document.querySelectorAll(".miss-btn").forEach((btn, i) => {
         btn.addEventListener("click", () => {
-            if (i !== currentPlayerIndex) return;
+            if (i !== getCurrentPlayerIndex()) return;
             const p = players[i];
             p.totalThrows++;
             p.roundDarts.push("—");
@@ -15,6 +15,7 @@ export function registerMissButtons() {
 }
 
 export function handleHit(hit, multiplier) {
+    const currentPlayerIndex = getCurrentPlayerIndex();
     const p = players[currentPlayerIndex];
     let points = 0;
 

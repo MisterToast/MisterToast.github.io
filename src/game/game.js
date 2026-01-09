@@ -25,11 +25,20 @@ export const players = [
 ];
 
 // Aktueller Spieler & Wurf
-export let currentPlayerIndex = 0;
-export let currentThrow = 1;
+let currentPlayerIndex = 0;
+let currentThrow = 1;
 export const maxThrows = 3;
 
-// Funktionen, um State zu ändern
+// Getter für State
+export function getCurrentPlayerIndex() {
+    return currentPlayerIndex;
+}
+
+export function getCurrentThrow() {
+    return currentThrow;
+}
+
+// Setter für State
 export function setCurrentPlayerIndex(i) {
     currentPlayerIndex = i;
 }

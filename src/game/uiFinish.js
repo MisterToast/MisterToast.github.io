@@ -1,7 +1,10 @@
-import { players, currentPlayerIndex, currentThrow, maxThrows } from "./game.js";
+import { players, getCurrentPlayerIndex, getCurrentThrow, maxThrows } from "./game.js";
 import { calculateFinish } from "./finishCalc.js";
 
 export function updateAllPreviews() {
+    const currentPlayerIndex = getCurrentPlayerIndex();
+    const currentThrow = getCurrentThrow();
+    
     players.forEach(p => {
         const box = p.element.querySelector(".finish-preview");
         box.innerHTML = "";

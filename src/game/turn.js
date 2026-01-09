@@ -1,8 +1,10 @@
-import { players, currentPlayerIndex, currentThrow, maxThrows, setCurrentPlayerIndex, setCurrentThrow } from "./game.js";
+import { players, getCurrentPlayerIndex, getCurrentThrow, maxThrows, setCurrentPlayerIndex, setCurrentThrow } from "./game.js";
 import { updateActivePlayer, updateRoundDarts } from "./uiPlayers.js";
 import { updateAllPreviews } from "./uiFinish.js";
 
 export function nextThrow(bust = false) {
+    const currentPlayerIndex = getCurrentPlayerIndex();
+    const currentThrow = getCurrentThrow();
     const p = players[currentPlayerIndex];
 
     if (!bust && currentThrow < maxThrows) {

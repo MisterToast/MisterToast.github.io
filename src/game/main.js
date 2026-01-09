@@ -1,10 +1,15 @@
+// Import all modules first (order matters!)
+import "../menus/hitMenu.js";
+import "../menus/confirmMenu.js";
+import "../menus/winMenu.js";
+import "../board.js";
+
+// Then import game logic
 import { initGame } from "./init.js";
 import { registerMissButtons } from "./throws.js";
 import { openConfirmReset } from "../menus/confirmMenu.js";
-import "../board.js";
-import "../menus/hitMenu.js";
-import "../menus/winMenu.js";
 
+// Initialize game
 initGame();
 registerMissButtons();
 
